@@ -12,7 +12,7 @@ function AddBlogs() {
   };
   const navigate = useNavigate();
   const handleAdd = async (e) => {
-    e.preventDefault(); // Fixed typo: preventDefault, not prevent.default
+    e.preventDefault();
     try {
       const res = await axios.post(
         `${import.meta.env.VITE_APP_BACKEND_URL}blogs`,

@@ -1,13 +1,21 @@
-import React, { useEffect, useState, useContext } from "react";
+// Import necessary libraries
+import React, { useState, useEffect } from "react";
 import { ProfileCircle } from "iconoir-react";
 import { useUser } from "../context/ProvideUser";
-import cookie from "js-cookie";
 import { Button, Group } from "@mantine/core";
+import axios from "axios";
+
+// Define the Blogs component
 export default function Blogs() {
+  // State variables to manage posts, loading state, and errors
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  // Get the username from the user context
   const { username } = useUser();
+
+  // Function to fetch posts from the backend
   const fetchPosts = async () => {
     try {
       const response = await fetch(
@@ -26,26 +34,42 @@ export default function Blogs() {
     }
   };
 
+  // useEffect hook to fetch posts on component mount
   useEffect(() => {
     fetchPosts();
   }, []);
 
+  // Function to delete a post
+  const deletePost = async (id) => {
+    try {
+      const response = await axios.delete(
+        `${import.meta.env.VITE_APP_BACKEND_URL}blogs/${id}`,
+        { withCredentials: true }
+      );
+      if (response.status === 200) {
+        // If deletion successful, fetch posts again to reflect changes
+        setPosts(posts.filter((post) => post._id !== id));
+
+        alert("Deleted Successfully");
+      } else {
+        throw new Error("Something went wrong!!");
+      }
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  // JSX to render the component
   return (
     <div>
+      {/* Conditionally render based on loading, error, and post data */}
       {isLoading ? (
         <p>Loading posts...</p>
       ) : error ? (
         <p>Error: {error}</p>
       ) : posts.length > 0 ? (
         <div className="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
-          <div className="max-w-2xl mx-auto text-center mb-10 lg:mb-14">
-            <h2 className="text-2xl font-bold md:text-4xl md:leading-tight">
-              The Blogs
-            </h2>
-            <p className="mt-1 text-gray-600">
-              See All the blogs from all the users .
-            </p>
-          </div>
+          {/* Render posts */}
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {posts.map((post, i) => (
               <div
@@ -75,9 +99,16 @@ export default function Blogs() {
                           You
                           {
                             <Group justify="center">
-                              <Button variant="filled" color="red" radius="xl">
+                              {/* Button to delete post */}
+                              <Button
+                                variant="filled"
+                                color="red"
+                                radius="xl"
+                                onClick={() => deletePost(post._id)}
+                              >
                                 Delete
                               </Button>
+                              {/* Button for update */}
                               <Button
                                 variant="filled"
                                 color="green"
@@ -96,28 +127,6 @@ export default function Blogs() {
                 </div>
               </div>
             ))}
-          </div>
-          <div className="mt-12 text-center">
-            <a
-              className="py-3 px-4 inline-flex items-center gap-x-1 text-sm font-medium rounded-full border border-gray-200 bg-white text-blue-600 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none"
-              href="/"
-            >
-              Read more
-              <svg
-                className="flex-shrink-0 size-4"
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="m9 18 6-6-6-6" />
-              </svg>
-            </a>
           </div>
         </div>
       ) : (
