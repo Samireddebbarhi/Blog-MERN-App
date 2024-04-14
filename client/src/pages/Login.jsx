@@ -23,6 +23,7 @@ export default function Login() {
         user, // Passing user directly as data
         {
           headers: { "Content-Type": "application/json" },
+          withCredentials: true,
         }
       );
       if (res.status === 200) {
@@ -39,7 +40,7 @@ export default function Login() {
   };
 
   useEffect(() => {
-    if (redirect) navigate("/home");
+    if (redirect) navigate("/blogs");
   }, [redirect]);
   return (
     <div className="flex flex-col max-w-md p-6 rounded-md sm:p-10 dark:bg-gray-50 dark:text-gray-800">

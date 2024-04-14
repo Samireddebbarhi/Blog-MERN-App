@@ -1,116 +1,62 @@
-import React, { useEffect, useState, useContext } from "react";
-import { ProfileCircle } from "iconoir-react";
-import { useUser } from "../context/ProvideUser";
-import { Button } from "@mantine/core";
-export default function Home() {
-  const [posts, setPosts] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const { username } = useUser();
-  const fetchPosts = async () => {
-    try {
-      const response = await fetch(
-        `${import.meta.env.VITE_APP_BACKEND_URL}blogs`
-      );
-      if (!response.ok) {
-        throw new Error(`API Error: ${response.statusText}`);
-      }
-      const fetchedPosts = await response.json();
-      setPosts(fetchedPosts);
-    } catch (error) {
-      setError(error.message);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchPosts();
-  }, []);
-
+import React from "react";
+import { Link } from "react-router-dom";
+function Home() {
   return (
-    <div>
-      {isLoading ? (
-        <p>Loading posts...</p>
-      ) : error ? (
-        <p>Error: {error}</p>
-      ) : posts.length > 0 ? (
-        <div className="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
-          <div className="max-w-2xl mx-auto text-center mb-10 lg:mb-14">
-            <h2 className="text-2xl font-bold md:text-4xl md:leading-tight">
-              The Blog
-            </h2>
-            <p className="mt-1 text-gray-600">
-              See how game-changing companies are making the most of every
-              engagement with Preline.
+    <div class="relative overflow-hidden">
+      <div
+        aria-hidden="true"
+        class="flex absolute -top-96 start-1/2 transform -translate-x-1/2"
+      >
+        <div class="bg-gradient-to-r from-violet-300/50 to-purple-100 blur-3xl w-[25rem] h-[44rem] rotate-[-60deg] transform -translate-x-[10rem]"></div>
+        <div class="bg-gradient-to-tl from-blue-50 via-blue-100 to-blue-50 blur-3xl w-[90rem] h-[50rem] rounded-fulls origin-top-left -rotate-12 -translate-x-[15rem]"></div>
+      </div>
+
+      <div class="relative z-10">
+        <div class="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-16">
+          <div class="max-w-2xl text-center mx-auto">
+            <p class="inline-block text-sm font-medium bg-clip-text bg-gradient-to-l from-blue-600 to-violet-500 text-transparent">
+              Preline: A vision for 2023
             </p>
-          </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {posts.map((post, i) => (
-              <div
-                key={i}
-                className="group flex flex-col h-full border border-gray-200 hover:border-transparent hover:shadow-lg transition-all duration-300 rounded-xl p-5"
+
+            <div class="mt-5 max-w-2xl">
+              <h1 class="block font-semibold text-gray-800 text-4xl md:text-5xl lg:text-6xl">
+                The Intuitive Web Solutions
+              </h1>
+            </div>
+
+            <div class="mt-5 max-w-3xl">
+              <p class="text-lg text-gray-600">
+                “Unleashing Creativity: Explore Our Inspiring Blog”.
+              </p>
+            </div>
+
+            <div class="mt-8 gap-3 flex justify-center">
+              <Link
+                to="/login"
+                class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
               >
-                <div className="aspect-w-16 aspect-h-11">
-                  <img
-                    className="w-full object-cover rounded-xl"
-                    src="src/assets/images/image_ark.jpeg"
-                    alt="Image "
-                  />
-                </div>
-                <div className="my-6">
-                  <h3 className="text-xl font-semibold text-gray-800">
-                    {post.title}
-                  </h3>
-                  <p className="mt-5 text-gray-600">{post.content}</p>
-                </div>
-                <div className="mt-auto flex items-center gap-x-3">
-                  <ProfileCircle height={30} width={28} />
-                  <div>
-                    <h5 className="text-sm text-gray-800">
-                      By
-                      {post.user_info.username === username
-                        ? <b> You </b> && (
-                            <button
-                              type="button"
-                              class="py-3 px-4 inline-flex flex-end items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none hidden"
-                            >
-                              delete
-                            </button>
-                          )
-                        : post.user_info.username}
-                    </h5>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className="mt-12 text-center">
-            <a
-              className="py-3 px-4 inline-flex items-center gap-x-1 text-sm font-medium rounded-full border border-gray-200 bg-white text-blue-600 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none"
-              href="/"
-            >
-              Read more
-              <svg
-                className="flex-shrink-0 size-4"
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="m9 18 6-6-6-6" />
-              </svg>
-            </a>
+                Get started
+                <svg
+                  class="flex-shrink-0 size-4"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="m9 18 6-6-6-6" />
+                </svg>
+              </Link>
+            </div>
           </div>
         </div>
-      ) : (
-        <p>No posts found.</p>
-      )}
+      </div>
     </div>
   );
 }
+
+export default Home;

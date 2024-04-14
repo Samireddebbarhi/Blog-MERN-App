@@ -1,7 +1,11 @@
 const jwt = require("jsonwebtoken");
 const users = require("../Models/users.js");
+//const cookie = require("js-cookie");
 const bcrypt = require("bcrypt");
+//const { cookie } = require("express-validator");
+
 require("dotenv").config();
+
 exports.HandleLogin = async (req, res, next) => {
   const { username, password } = req.body;
   if (!username || !password)
@@ -17,16 +21,17 @@ exports.HandleLogin = async (req, res, next) => {
           { id: data._id, user_name: username },
           process.env.Token_Secret,
           {
-            expiresIn: "10m",
+            expiresIn: "4m",
           }
         );
-        res.cookie("token", Newtoken, { httpOnly: true });
-
-        res
-          .status(200)
-          .send(
-            `HI ${username} you connected succefully  with token : ${Newtoken}`
-          );
+        res.cookie("token", Newtoken, {
+          httpOnly: true,
+          sameSite: "strict",
+        });
+        res.status(200).json({
+          msg: `HI ${username} you connected succefully  with token} `,
+          Token: `${Newtoken}`,
+        });
       } else
         res.status(401).send({
           error: `Sorry  this ${username} or Password are incorrect `,

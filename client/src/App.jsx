@@ -6,6 +6,7 @@ import { MantineProvider } from "@mantine/core";
 import Header from "./Components/Header";
 import Footer from "./Components/Footer";
 import AddBlogs from "./Components/AddBlogs";
+import Blogs from "./pages/Blogs";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import SignUp from "./pages/SingUp";
@@ -33,9 +34,9 @@ function App() {
             <Routes>
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<SignUp />} />
-
+              <Route path="/home" element={<Home />} />
               <Route element={<ProtectedRoute />}>
-                <Route path="/home" element={<Home />} />
+                <Route path="/blogs" element={<Blogs />} />
 
                 <Route path="/new" element={<AddBlogs />} />
               </Route>

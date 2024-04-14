@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { authentication } from "../context/Provider";
 import { Button } from "@mantine/core";
 import { useUser } from "../context/ProvideUser";
-
+import { LogOut } from "iconoir-react";
 export default function Header() {
   const connect = useContext(authentication);
   const { username } = useUser();
@@ -74,6 +74,13 @@ export default function Header() {
                 class="font-medium text-blue-600 sm:py-6"
                 aria-current="page"
               >
+                Home
+              </Link>
+              <Link
+                to="/blogs"
+                class="font-medium text-blue-600 sm:py-6"
+                aria-current="page"
+              >
                 Blogs
               </Link>
               <Link
@@ -104,7 +111,16 @@ export default function Header() {
                     <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
                     <circle cx="12" cy="7" r="4" />
                   </svg>
-                  {connect.auth ? <b>Welcome {username}!! </b> : "LogIn"}
+                  {connect.auth ? (
+                    <b>
+                      Welcome {username}!!{" "}
+                      <Link to="/logout">
+                        <LogOut />
+                      </Link>
+                    </b>
+                  ) : (
+                    "LogIn"
+                  )}
                 </Link>
               </div>
             </div>

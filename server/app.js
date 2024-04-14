@@ -1,7 +1,8 @@
 const express = require("express");
 const { body } = require("express-validator");
 const mid = require("./Middelware/postMiddle");
-//const verifyToken = require("./Middelware/verify-jwt");
+const cookieParser = require("cookie-parser");
+const verifyToken = require("./Middelware/verify-jwt");
 const mongoose = require("mongoose");
 const app = express();
 const cors = require("cors");
@@ -11,6 +12,7 @@ const inscRoute = require("./Routes/registRoute");
 const aut_route = require("./Routes/authRoute");
 require("dotenv").config();
 app.use(express.json());
+app.use(cookieParser());
 app.use(
   cors({
     credentials: true,
@@ -26,7 +28,7 @@ app.use(
 );
 app.use("/login", aut_route);
 
-app.use("/blogs", /*verifyToken,*/ Proute);
+app.use("/blogs", verifyToken, Proute);
 
 // Handling any routes that don't match the ones above with a 404
 
