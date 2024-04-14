@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { ProfileCircle } from "iconoir-react";
 import { useUser } from "../context/ProvideUser";
 import cookie from "js-cookie";
-import { Button } from "@mantine/core";
+import { Button, Group } from "@mantine/core";
 export default function Blogs() {
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -70,16 +70,27 @@ export default function Blogs() {
                   <div>
                     <h5 className="text-sm text-gray-800">
                       By
-                      {post.user_info.username === username
-                        ? <b> You </b> && (
-                            <button
-                              type="button"
-                              class="py-3 px-4 inline-flex flex-end items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none hidden"
-                            >
-                              delete
-                            </button>
-                          )
-                        : post.user_info.username}
+                      {post.user_info.username === username ? (
+                        <b>
+                          You
+                          {
+                            <Group justify="center">
+                              <Button variant="filled" color="red" radius="xl">
+                                Delete
+                              </Button>
+                              <Button
+                                variant="filled"
+                                color="green"
+                                radius="xl"
+                              >
+                                update
+                              </Button>
+                            </Group>
+                          }
+                        </b>
+                      ) : (
+                        post.user_info.username
+                      )}
                     </h5>
                   </div>
                 </div>
