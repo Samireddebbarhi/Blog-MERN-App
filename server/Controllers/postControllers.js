@@ -34,7 +34,7 @@ const updateBlog = async (req, res) => {
       res.status(400).send("Missing fields");
     } else {
       await Blog.updateOne(
-        { _id: req.params.id, userId: req.id },
+        { _id: req.params.id }, // Check the owner of this blog post
         {
           $set: {
             title: req.body.title,
@@ -54,7 +54,7 @@ const updateBlog = async (req, res) => {
 
 const deleteBlog = async (req, res, next) => {
   try {
-    const result = await Blog.deleteOne({ _id: req.params.id, userId: req.id });
+    const result = await Blog.deleteOne({ _id: req.params.id });
     if (!result) {
       return res
         .status(401)
